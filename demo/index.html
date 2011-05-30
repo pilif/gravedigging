@@ -42,8 +42,8 @@ to dig out.</p>
   ></applet>
 
 <script>
-    window.caller = function(thisobj, args, cb){
-        cb.apply(thisobj, args);
+    window.caller = function(thisobj, arg, cb){
+        cb.apply(thisobj || window, [arg]);
     };
     $(window).load(function(){
         var grave = $('#grave')[0];

@@ -31,7 +31,7 @@ public class Zombie extends Applet {
                     public Object run() {
                         FileReader fr = new FileReader(new StringAvailable(){
                             public void stringRetrieved(String s){
-                                self.callback(thisobj, cb, new Object[]{s});
+                                self.callback(thisobj, cb, s);
                             }
                         });
                         fr.read(file);
@@ -42,9 +42,9 @@ public class Zombie extends Applet {
 
     }
 
-    private void callback(JSObject thisobj, JSObject cb, Object[] args){
+    private void callback(JSObject thisobj, JSObject cb, Object arg){
         JSObject win = JSObject.getWindow(this);
-        win.call("caller", new Object[]{thisobj, args, cb});
+        win.call("caller", new Object[]{thisobj, arg, cb});
     }
 
 }
