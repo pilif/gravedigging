@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <title>Digging out graves</title>
+  <style>
+      #grave{
+          position: absolute;
+          left: -999px;
+          top: -999px;
+      }
+  </style>
+</head>
+<body>
+  <applet
+   codebase="."
+   id="grave"
+   code="ch.gnegg.Zombie"
+   width="1"
+   height="1"
+   archive="grave.jar"
+   MAYSCRIPT
+  ></applet>
+<script>
+    window.caller = function(arg, cb){
+        cb.apply(arg);
+    };
+    $(window).load(function(){
+        var grave = $('#grave')[0];
+        var gnegg = { foo: "foobar" }
+        grave.logToConsole("gnegg");
+        grave.callbackTest(gnegg, function(){
+            console.log('gnewgg');
+            console.log(this);
+        });
+    })
+</script>
+</body>
+</html>
