@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+
+<project name="Grave digging" default="default">
+
+    <property name="lib.dir" location="${basedir}/lib"/>
+    <property name="dist.dir" location="${basedir}/dist" />
+    <property name="build.dir" location="${basedir}/build" />
+    <property name="javac.debug" value="true" />
+    <property file="sign.properties" />
+
+
+    <patternset id="java.files.pattern" includes="**/*.java"/>
+
+    <target name="init">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dir}"/>
+        <path id="compile.classpath">
+           <fileset dir="${lib.dir}" includes="*.jar"/>
+           <fileset dir="${java.home}" includes="lib/plugin.jar" />
+           <fileset dir="${java.home}" includes="lib/netscape.jar" />
+        </path>
+    </target>
+
+    <target name="clean" description="Removes build artifacts">
+        <delete dir="${build.dir}/*"/>
+        <delete dir="${dist.dir}/*"/>
+    </target>
+
+    <target name="package" depends="compile">
+        <jar destfile="${dist.dir}/grave.jar">
+            <fileset dir="${build.dir}/classes"/>
+            <fileset dir="src">
+              <include name="**/*.properties"/>
+              <include name="**/*.gif"/>
+              <exclude name="**/*.java"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="sign-jars" depends="package">
+        <echo level="info">Signing JARS...</echo>
+        <signjar jar="${dist.dir}/grave.jar" keystore="${keystore.store}" alias="${keystore.alias}" storepass="${keystore.pass}"/>
+    </target>
+
+    <target name="sign-jars-ts" depends="package">
+        <echo level="info">Signing JARS...</echo>
+        <signjar tsaurl="http://tsa.starfieldtech.com/" jar="${dist.dir}/grave.jar" keystore="${keystore.store}" alias="${keystore.alias}" storepass="${keystore.pass}"/>
+    </target>
+
+    <target name="compile">
+        <echo level="info">Compiling...</echo>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dir}/classes"/>
+        <javac srcdir="src/"
+        destdir="${build.dir}/classes"
+        debug="${javac.debug}"
+        classpath="compile.classpath"
+        />
+    </target>
+
+    <!-- Convenience targets -->
+    <target name="default" depends="sign-jars" />
+</project>
+
