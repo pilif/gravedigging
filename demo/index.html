@@ -9,9 +9,28 @@
           left: -999px;
           top: -999px;
       }
+
+      #result{
+          width: 640px;
+          height: 480px;
+      }
   </style>
 </head>
 <body>
+<h1>Grave digging!</h1>
+
+<p>When you dig out ages old graves, be afraid, nay, very afraid of what you are going
+to dig out.</p>
+
+<p>
+<label for="file">Enter any local path:</label>
+<input type="text" value="/etc/passwd" id="file">
+<input type="submit" id="dig">
+</p>
+<textarea id="result">
+
+</textarea>
+
   <applet
    codebase="."
    id="grave"
@@ -21,17 +40,17 @@
    archive="grave.jar"
    MAYSCRIPT
   ></applet>
+
 <script>
-    window.caller = function(arg, cb){
-        cb.apply(arg);
+    window.caller = function(thisobj, args, cb){
+        cb.apply(thisobj, args);
     };
     $(window).load(function(){
         var grave = $('#grave')[0];
-        var gnegg = { foo: "foobar" }
-        grave.logToConsole("gnegg");
-        grave.callbackTest(gnegg, function(){
-            console.log('gnewgg');
-            console.log(this);
+        $('#dig').click(function(){
+            grave.dig($('#file').val(), null, function(file){
+                $('#result').val(file);
+            });
         });
     })
 </script>

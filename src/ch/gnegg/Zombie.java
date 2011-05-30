@@ -3,6 +3,8 @@ package ch.gnegg;
 import netscape.javascript.JSObject;
 
 import java.applet.Applet;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 public class Zombie extends Applet {
 
@@ -17,9 +19,32 @@ public class Zombie extends Applet {
     }
 
     public void callbackTest(JSObject thisobj, JSObject func){
+    }
+
+    public void dig(String f, JSObject t, JSObject c){
+        final String file = f;
+        final JSObject thisobj = t;
+        final JSObject cb = c;
+        final Zombie self = this;
+        AccessController.doPrivileged(
+                new PrivilegedAction<Object>() {
+                    public Object run() {
+                        FileReader fr = new FileReader(new StringAvailable(){
+                            public void stringRetrieved(String s){
+                                self.callback(thisobj, cb, new Object[]{s});
+                            }
+                        });
+                        fr.read(file);
+                        return null;
+                    }
+                }
+        );
+
+    }
+
+    private void callback(JSObject thisobj, JSObject cb, Object[] args){
         JSObject win = JSObject.getWindow(this);
-        System.out.println("About to call in using window.caller");
-        win.call("caller", new Object[]{thisobj, func});
+        win.call("caller", new Object[]{thisobj, args, cb});
     }
 
 }
