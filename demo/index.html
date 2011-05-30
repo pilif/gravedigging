@@ -15,7 +15,7 @@
 
       #result{
           width: 640px;
-          height: 480px;
+          height: 240px;
       }
   </style>
 </head>
@@ -36,6 +36,19 @@ to dig out.</p>
         <textarea id="result"></textarea>
     </div>
 </div>
+
+<h2>Remarks</h2>
+<p>
+  This is the first demonstration. As such it's still not even close to be
+  reusable, but at least it manages to prove the point: It is in fact possible
+  to read any local file using JavaScript with an otherwise totally invisible
+  Java Applet.
+</p>
+
+<p>
+  Knowing this, let's create a real API that is sort-of reusable. If you are
+  still with me, <a href="real_api.html">go here to see what I mean</a>.
+</p>
 
 <script>
     window.caller = function(thisobj, arg, cb){

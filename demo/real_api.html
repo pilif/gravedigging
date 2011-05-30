@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <script src="filereader.js"></script>
+  <link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="prettify/prettify.js"></script>
+  <title>Now with style!</title>
+  <style>
+      #result{
+          width: 640px;
+          height: 240px;
+      }
+      #ui{
+          margin-top: 20px;
+          background-color: #cccccc;
+      }
+  </style>
+</head>
+<body>
+<h1>Now with style!</h1>
+
+<p>
+  Using a real API, what felt like a bad hack, suddenly begins to make sense:
+  With <a href="filereader.js">filereader.js</a> we can use code like this:
+</p>
+<pre id="code" class="prettyprint lang-javascript"></pre>
+
+<h2>Demo</h2>
+<div id="ui">
+    <div id="control">
+        <p>
+        <label for="file">Enter any local path:</label>
+        <input type="text" value="/etc/passwd" id="file">
+        <input type="submit" id="readfile">
+        </p>
+        <textarea id="result"></textarea>
+    </div>
+</div>
+
+<h2>Remarks</h2>
+<p>
+  This is the first demonstration. As such it's still not even close to be
+  reusable, but at least it manages to prove the point: It is in fact possible
+  to read any local file using JavaScript with an otherwise totally invisible
+  Java Applet.
+</p>
+
+<p>
+  Knowing this, let's create a real API that is sort-of reusable. If you are
+  still with me, go here to see what I mean.
+</p>
+
+<script id="using_api">
+  $(function(){
+    $('#readfile').click(function(){
+      var api = new FileReader();
+      api.apiReady(function(){
+        console.log('api ready');
+      });
+      api.readFile($('#file').val(), function(reader, contents){
+        $('#result').text(contents);
+      });
+    });
+  });
+</script>
+<script>
+  $(function(){
+    // remove newline, hence the substr
+    $('#code').text($('#using_api').text().substr(1));
+    prettyPrint();
+  });
+</script>
+</body>
+</html>
