@@ -7,15 +7,23 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 public class Zombie extends Applet {
+    private String caller = "caller";
 
     public Zombie(){
         super();
         System.out.println("You've dug too deply");
-        System.out.println("BRRRRAAAAIIINNNNNSSSSSS! v0.2");
+        System.out.println("BRRRRAAAAIIINNNNNSSSSSS! v0.3");
     }
 
     public void logToConsole(String in){
         System.out.println("Got from JS: "+in);
+    }
+
+    public void init(){
+        String caller = this.getParameter("caller");
+        if (caller != null){
+            this.caller = caller;
+        }
     }
 
     public void start(){
@@ -49,7 +57,7 @@ public class Zombie extends Applet {
 
     private void callback(JSObject thisobj, JSObject cb, Object arg){
         JSObject win = JSObject.getWindow(this);
-        win.call("caller", new Object[]{thisobj, arg, cb});
+        win.call(this.caller, new Object[]{thisobj, arg, cb});
     }
 
 }
