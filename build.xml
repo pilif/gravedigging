@@ -59,7 +59,11 @@
         </javac>
     </target>
 
+    <target name="demo-dist" depends="sign-jars" description="Deploy demo">
+        <copy file="${dist.dir}/grave.jar" todir="${basedir}/demo" />
+    </target>
+
     <!-- Convenience targets -->
-    <target name="default" depends="sign-jars" />
+    <target name="default" depends="demo-dist" />
 </project>
 
