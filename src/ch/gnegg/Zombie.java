@@ -18,7 +18,12 @@ public class Zombie extends Applet {
         System.out.println("Got from JS: "+in);
     }
 
-    public void callbackTest(JSObject thisobj, JSObject func){
+    public void start(){
+        String notify = this.getParameter("zombie_resurrected");
+        if (notify != null){
+            JSObject win = JSObject.getWindow(this);
+            win.call(notify, null);
+        }
     }
 
     public void dig(String f, JSObject t, JSObject c){
