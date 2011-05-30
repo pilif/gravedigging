@@ -11,7 +11,7 @@ public class Zombie extends Applet {
     public Zombie(){
         super();
         System.out.println("You've dug too deply");
-        System.out.println("This is ZombieApplet v0.1");
+        System.out.println("BRRRRAAAAIIINNNNNSSSSSS! v0.2");
     }
 
     public void logToConsole(String in){
